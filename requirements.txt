@@ -1,0 +1,4 @@
+apache-airflow
+requests
+pandas
+scikit-learn

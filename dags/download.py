@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 
 
 DATASET_URL = "https://vincentarelbundock.github.io/Rdatasets/csv/AER/CollegeDistance.csv"
-CSV_FILE_PATH = "/Users/andrzej/Informatyka/PRO/Tutor5_s26442/airflow/dags/files/CollegeDistance.csv"
-TRAIN_FILE_PATH = "/Users/andrzej/Informatyka/PRO/Tutor5_s26442/airflow/dags/files/train.csv"
-TEST_FILE_PATH = "/Users/andrzej/Informatyka/PRO/Tutor5_s26442/airflow/dags/files/test.csv"
+CSV_FILE_PATH = "/Users/andrzej/airflow/dags/files/CollegeDistance.csv"
+TRAIN_FILE_PATH = "/Users/andrzej/airflow/dags/files/train.csv"
+TEST_FILE_PATH = "/Users/andrzej/airflow/dags/files/test.csv"
 
 
 def download_dataset():
@@ -14,6 +14,19 @@ def download_dataset():
     with open(CSV_FILE_PATH, "wb") as file:
         file.write(response.content)
     print(f"Dataset downloaded to {CSV_FILE_PATH}")
+
+def check_and_remove_duplicates():
+    df = pd.read_csv(CSV_FILE_PATH)
+
+    num_duplicates = df.duplicated().sum()
+    if num_duplicates > 0:
+        print(f"Found {num_duplicates} duplicates. Removing them.")
+        df = df.drop_duplicates()
+        df.to_csv(CSV_FILE_PATH, index=False)
+    else:
+        print("No duplicates found.")
+
+    print(f"Data processed and saved to {CSV_FILE_PATH}")
 
 def split_dataset():
     df = pd.read_csv(CSV_FILE_PATH)
