@@ -34,8 +34,8 @@ def download_google_sheet():
 def clean_data():
     df = pd.read_csv(CLEANED_FILE_PATH)
     
-    # Usuwanie brakujących wartości
-    df = df.dropna()  # Możesz zamiast tego użyć innego sposobu np. df.fillna(df.mean())
+    
+    df = df.dropna()
 
     df.to_csv(CLEANED_FILE_PATH, index=False)
     print(f"Data cleaned and saved to {CLEANED_FILE_PATH}")
